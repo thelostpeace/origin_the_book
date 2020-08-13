@@ -66,3 +66,53 @@ MLE假定所有的样本都是彼此独立的，所以对于整个分布来说�
 #### reference
 
 1. [Logistic Regression — Detailed Overview](https://towardsdatascience.com/logistic-regression-detailed-overview-46c4da4303bc)
+
+### Decision Tree
+
+#### C4.5 Algorithm
+
+ - 特征选择Split条件：**Information Gain**，**Gain Ratio**，**Gini Index**
+
+<p align='center'>
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/entropy.png?raw=true" height=50 />
+</p>
+
+对于每一次split，计算split之后的entropy，与父节点的entropy之差便是**Information Gain**，每次取最大的information gain做split。Information Gain更偏向于数值分布比较广泛的特征。
+
+C4.5 使用**Gain Ratio**做split决策。
+
+<p align='center'>
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/gain_ratio.png?raw=true" height=450 />
+</p>
+
+**Gini Index**
+
+<p align='center'>
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/gini_index.png?raw=true" height=150 />
+</p>
+
+**Gini Index**只做二分split。
+
+ - prune
+
+**prune**移除那些Information Gain比较小的分支，进而避免overfitting。
+
+#### Pros
+
+ - Decision trees are easy to interpret and visualize.
+ - It can easily capture Non-linear patterns.
+ - It requires fewer data preprocessing from the user, for example, there is no need to normalize columns.
+ - It can be used for feature engineering such as predicting missing values, suitable for variable selection.
+ - The decision tree has no assumptions about distribution because of the non-parametric nature of the algorithm. 
+
+#### Cons
+
+ - Sensitive to noisy data. It can overfit noisy data.
+ - The small variation(or variance) in data can result in the different decision tree. This can be reduced by bagging and boosting algorithms.
+ - Decision trees are biased with imbalance dataset, so it is recommended that balance out the dataset before creating the decision tree.
+ 
+#### reference
+
+ 1. [Decision Tree Classification in Python](https://www.datacamp.com/community/tutorials/decision-tree-classification-python)
+
+
