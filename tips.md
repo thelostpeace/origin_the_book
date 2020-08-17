@@ -424,6 +424,10 @@ LSTM有三个门，分别是遗忘门，忘掉上个Cell状态的部分；输入
 
  - **Luong Attention**根据attention的计算方式，分为三种类型。
 
+  <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/luong_attention.png?raw=true" height=60/>
+</p>
+
  假定encoder是`[seqlen, 300]`, decoder是`[1,300]`
  
  1. **Dot**
