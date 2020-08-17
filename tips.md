@@ -190,6 +190,19 @@ K-Means属于unsupervised learning. 算法也比较简单，就是初始化K个�
 
  1. [Silhouette (clustering)](https://en.wikipedia.org/wiki/Silhouette_(clustering))
 
+### 特征工程
+
+对于机器学习来说，最主要的不是模型，而是特征的构造和选取，一般对于特征的选取有以下方式。
+
+ - **Mutual Information**：给定分类以及特征，通过mutual information就可以计算出该分类对应不同特征的的互通信息量。
+ 
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/mutual_information.png?raw=true" />
+</p>
+
+ - **chi-square**: [Chi-squared test](https://en.wikipedia.org/wiki/Chi-squared_test)
+ - **decision tree**也可以用来做特征选取，因为decision tree不需要对数据做过多的处理，所以也很方便。
+
 ## Deep Learning
 
 ### Word2Vec
@@ -267,4 +280,178 @@ fasttext里面word embedding的实现用到了subword information，即词素的
  1. [Distributed Representations of Words and Phrases
 and their Compositionality](https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf)
 
+### Back Propagation
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/computation_graph.png?raw=true" />
+</p>
+
+这里对`Back Propagration`做一个简单的推导。
+
+对于给定`f(x)`，在指定`x`的倒数可以计算为：
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/derivative.png?raw=true" />
+</p>
  
+ 所以对于forward pass，一是计算`f(x)`，二是计算`f'(x)`，这样在后续back propagation的时候会使用到。假定最后的loss为`Loss`，则：
+ 
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/back_propagation1.png?raw=true" />
+</p>
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/back_propagation2.png?raw=true" />
+</p>
+
+有推导可见，loss会随着偏导数无限增大或者无限减少，分别叫做`vanishing gradient`和`gradient explosion`，这也是deep neural netword难训练的原因。对于`vanishing gradient`，一般用highway connection就能解决，包括LSTM的Cell机制，也可以理解为highway connection。对于后者，一般用`clip gradient`的方式解决，即当gradient达到一个阈值之后，将其置为阈值来避免其爆发。
+
+### TextCNN
+
+TextNN因为其并发性比较好，训练比较快，适用于线上的文本分类任务。
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/textcnn.png?raw=true" />
+</p>
+
+```python
+class TextCNN(nn.Module):
+    """
+        TextCNN model
+    """
+    def __init__(self, vocab_size, emb_dim, emb_droprate, seq_len, filter_count, kernel_size, conv_droprate, num_class):
+        super().__init__()
+        self.vocab_size = vocab_size        # vocab size
+        self.emb_dim = emb_dim              # embedding dimension
+        self.emb_droprate = emb_droprate    # embedding dropout rate
+        self.seq_len = seq_len              # sequence length
+        self.filter_count = filter_count    # output feature size
+        self.kernel_size = kernel_size      # list of kernel size, means kGram in text, ex. [1, 2, 3, 4, 5 ...]
+        self.conv_droprate = conv_droprate  # conventional layer dropout rate
+        self.num_class = num_class          # classes
+        pass
+
+    def build(self):
+        self.embedding = nn.Embedding(self.vocab_size, self.emb_dim)
+        self.emb_dropout = nn.Dropout(self.emb_droprate)
+        self.conv1 = nn.Conv2d(1, self.filter_count, (self.kernel_size[0], self.emb_dim))
+        self.conv2 = nn.Conv2d(1, self.filter_count, (self.kernel_size[1], self.emb_dim))
+        self.conv3 = nn.Conv2d(1, self.filter_count, (self.kernel_size[2], self.emb_dim))
+        self.pool1 = nn.MaxPool2d((self.seq_len - self.kernel_size[0] + 1, 1))
+        self.pool2 = nn.MaxPool2d((self.seq_len - self.kernel_size[1] + 1, 1))
+        self.pool3 = nn.MaxPool2d((self.seq_len - self.kernel_size[2] + 1, 1))
+        self.conv_dropout = nn.Dropout(self.conv_droprate)
+        self.fc = nn.Linear(3 * self.filter_count, self.num_class)
+        pass
+
+    def forward(self, input_):
+        batch_size = input_.shape[0]
+
+        x = self.embedding(input_)
+        x = self.emb_dropout(x)
+
+        x = x.view(batch_size, 1, x.shape[1], x.shape[2])
+        x1 = F.relu(self.conv1(x))
+        x2 = F.relu(self.conv2(x))
+        x3 = F.relu(self.conv3(x))
+
+        x1 = self.pool1(x1)
+        x2 = self.pool2(x2)
+        x3 = self.pool3(x3)
+
+        x = torch.cat((x1, x2, x3), dim=1)
+        x = x.view(batch_size, 1, -1)           # shape: [batch_size, 1, filter_count * conv_layer_count]
+        x = self.conv_dropout(x)
+
+        x = self.fc(x)
+        x = x.view(-1, self.num_class)          # shape: [batch_size, num_class]
+
+        return x
+```
+
+个人对TextCNN的理解是，可以通过`kernel size`来获取uni-gram, bi-gram, tri-gram甚至更高的n-gram特征，通过不同的filter和pooling来取得更复杂的特征表示，即使有stride，textcnn获取的上下文信息也是比较短的。虽如此，textcnn在文本分类任务上还是取得了比较好的效果。
+
+#### reference
+
+ 1. [Convolutional Neural Networks for Sentence Classification](https://arxiv.org/pdf/1408.5882.pdf)
+
+### LSTM
+
+LSTM因为是时序的，所以在训练和预测上会慢很多，但是能够将长一些的上下文信息做encoding。
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/lstm_cell.png?raw=true" />
+</p>
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/lstm_cell_formula.png?raw=true" />
+</p>
+
+LSTM有三个门，分别是遗忘门，忘掉上个Cell状态的部分；输入门，将当前的计算结果的部分存入当前状态；输出门，将当前状态输出并更新隐层状态。
+
+一般在Language Model之外，使用bi-LSTM，即前向encoding和后向encoding。因为LSTM的时序越长，则较长的上文更可能被遗忘掉，这样做可以保留较远的上文信息。
+
+#### reference
+
+ 1. [Understanding LSTM Networks](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+
+### Attention
+
+除self-attention之外，常用的attention机制有以下几种。
+
+ - **Bahdanau Attention**，也叫additive attention。
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bahdanau_attention.png?raw=true" />
+</p>
+
+1. Producing the Encoder Hidden States - Encoder produces hidden states of each element in the input sequence
+2. Calculating Alignment Scores between the previous decoder hidden state and each of the encoder’s hidden states are calculated(Note: The last encoder hidden state can be used as the first hidden state in the decoder)
+3. Softmaxing the Alignment Scores - the alignment scores for each encoder hidden state are combined and represented in a single vector and subsequently softmaxed
+4. Calculating the Context Vector - the encoder hidden states and their respective alignment scores are multiplied to form the context vector
+5. Decoding the Output - the context vector is concatenated with the previous decoder output and fed into the Decoder RNN for that time step along with the previous decoder hidden state to produce a new output
+6. The process (steps 2-5) repeats itself for each time step of the decoder until an token is produced or output is past the specified maximum length
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bahdanau_attention_flow.png?raw=true" />
+</p>
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bahdanau_attention_score.png?raw=true" />
+</p>
+
+假定`H(decoder)`和`H(encoder)`都是300维的，即使不是也可以通过linear转换成300维的。则`tanh(decoder + encoder).shape`是`[sequence_length, 300]`，`W(combined).shape`是`[300, 1]`，则最终Score的shape是`[1,13]`，softmax之后与output序列相乘即`[1,300]`的context表示。
+
+ - **Luong Attention**根据attention的计算方式，分为三种类型。
+
+ 假定encoder是`[seqlen, 300]`, decoder是`[1,300]`
+ 
+ 1. **Dot**
+   
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/luong_attention_dot.png?raw=true" height=60/>
+</p>
+
+`score.shape = [1, seqlen]`
+
+2. **General**
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/luong_attention_general.png?raw=true" height=60/>
+</p>
+
+`score.shape = [1, seqlen]`
+
+3. **Concat**
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/luong_attention_concat.png?raw=true" height=60/>
+</p>
+
+`W.shape = [1, hidden], score.shape=[1, seqlen]`
+ 
+这种传统的attention机制需要指定query和values，而self-attention不需要，因为self-attention算的是词与词之间的alignment，然后以此计算出query。
+
+#### reference
+
+ 1. [Attention Mechanism](https://blog.floydhub.com/attention-mechanism/)
