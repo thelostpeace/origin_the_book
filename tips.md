@@ -459,3 +459,42 @@ LSTM有三个门，分别是遗忘门，忘掉上个Cell状态的部分；输入
 #### reference
 
  1. [Attention Mechanism](https://blog.floydhub.com/attention-mechanism/)
+
+### Bert
+
+#### pretrain
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bert_pretrain_sentence_pair.png?raw=true"/>
+</p>
+
+bert pretrain的训练数据，每行一个完整句子，document之间以空行分割。因为bert预训练里有一个子任务是next sentence prediction，所以训练数据长这样。
+
+预处理之后，数据变为：
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bert_pretrain_data.png?raw=true"/>
+</p>
+
+#### Bert Model
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bert_model.png?raw=true"/>
+</p>
+
+这里可能画的有一些歧义性，多层transformer之间，本层transformer的输入是上一层transformer的输出，即`input->transformer->transformer->transformer->...->transformer->output`。
+
+经过多层transformer之后，输出结果为`[batch size, sequence length, hidden size]`，即对整个句子做了encoding，通过`[CLS]`做上下句相关的分类，通过对应`[MASK]`的词的encoding做对应正确的词的预测。
+
+#### Bert的优势
+
+Bert本身是一个unsupervised MLM(Masked Language Model)，对句对预测和mask词预测做联合训练，在很多NLP任务上都取得了SOTA。预训练好之后的Bert相当于一个Encoding Layer，在后续的任务上做finetune拟合也很快，但由于庞大的参数量，实际使用中往往需要加缓存才能保证延时上是可用的。
+
+#### reference
+
+ 1. [BERT Explained: A Complete Guide with Theory and Tutorial](https://towardsml.com/2019/09/17/bert-explained-a-complete-guide-with-theory-and-tutorial/)
+
+### CRF
+
+
+ 
