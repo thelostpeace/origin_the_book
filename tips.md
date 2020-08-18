@@ -494,7 +494,33 @@ Bert本身是一个unsupervised MLM(Masked Language Model)，对句对预测和m
 
  1. [BERT Explained: A Complete Guide with Theory and Tutorial](https://towardsml.com/2019/09/17/bert-explained-a-complete-guide-with-theory-and-tutorial/)
 
-### CRF
+### CRF(Conditional Random Fields)
 
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/crf1.png?raw=true"/>
+</p>
 
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/crf2.png?raw=true"/>
+</p>
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/crf3.png?raw=true"/>
+</p>
+
+对于现在的deep learning来说，不需要手动构造特征，例如在ner里面，bi-LSTM对某个词的encoding就算其结合了上下文的特征，对于CRF来说还需要将之前的label信息加入进去。或者说，我们有了sentence的encoding，也有了当前词的encoding，还有上个词的label的encoding，然后用所有这些信息做一个linear transform，再接一个softmax，即可以对当前词的label做一个预测。
+
+对于机器学习的CRF来说，需要手动构造一些二元特征，类似于`if condition_a then 1 else 0`，其中`condition_a`可以非常复杂，原则上就是所有特征都必须彼此独立不相关，不然不符合Naive Bayes。
+
+用图来表示就是：
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/crf_score.png?raw=true"/>
+</p>
+
+#### reference
+
+ 1. [What Are Conditional Random Fields?](https://prateekvjoshi.com/2013/02/23/what-are-conditional-random-fields/)
+ 2. [Why Do We Need Conditional Random Fields?](https://prateekvjoshi.com/2013/02/23/why-do-we-need-conditional-random-fields/)
+ 3. [Introduction to Conditional Random Fields](http://blog.echen.me/2012/01/03/introduction-to-conditional-random-fields/)
  
