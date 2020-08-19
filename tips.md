@@ -616,7 +616,7 @@ b->bar();
 
 ## 开放性问题
 
-### 关键词挖掘
+### 关键词挖掘，Text Summarization
 
 该问题的定义如下，给定一个document，可能含有title、正文、脚注等等，需要挖掘哪些词是该document的关键词。该场景适用于Query Document匹配、以文搜文等。
 
@@ -645,4 +645,5 @@ b->bar();
  1. [TextRank: Bringing Order into Texts](https://www.aclweb.org/anthology/W04-3252.pdf)
  2. [Unsupervised Text Summarization Using Sentence Embeddings](https://www.cs.utexas.edu/~aish/ut/NLPProject.pdf)
  3. [https://pkghosh.wordpress.com/2019/06/27/six-unsupervised-extractive-text-summarization-techniques-side-by-side/](https://pkghosh.wordpress.com/2019/06/27/six-unsupervised-extractive-text-summarization-techniques-side-by-side/)
+ 4. [Text Summarization Techniques: A Brief Survey](https://arxiv.org/pdf/1707.02268.pdf)
  
