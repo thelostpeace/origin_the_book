@@ -523,4 +523,126 @@ Bert本身是一个unsupervised MLM(Masked Language Model)，对句对预测和m
  1. [What Are Conditional Random Fields?](https://prateekvjoshi.com/2013/02/23/what-are-conditional-random-fields/)
  2. [Why Do We Need Conditional Random Fields?](https://prateekvjoshi.com/2013/02/23/why-do-we-need-conditional-random-fields/)
  3. [Introduction to Conditional Random Fields](http://blog.echen.me/2012/01/03/introduction-to-conditional-random-fields/)
+
+### TF-IDF
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/tf-idf.png?raw=true"/>
+</p>
+ 
+ `tf-idf`是对词的权重的一个衡量，常被用来做停用词挖掘，在information retrieval里面被用来做Rank，即Query和Document的匹配度。
+ 
+## C++
+
+### 函数重载
+
+定义如下两个重载函数：
+
+```
+int foo(int a, int b) {
+    return 0;
+}
+
+int foo(int a, double b) {
+    return 0;
+}
+```
+
+c++编译后的符号表：
+
+```
+69:    56: 00000000004005ad    17 FUNC    GLOBAL DEFAULT   13 _Z3fooii
+73:    60: 00000000004005be    19 FUNC    GLOBAL DEFAULT   13 _Z3fooid
+```
+
+因为c++对函数的命名方式涵盖了namespace，函数名和参数类型，所以同函数名不同参数类型，在elf表里面生成的函数名是不一样的，所以c++支持重载这个概念。
+
+c编译之后的符号表：
+
+```
+66:    56: 00000000004004ed    19 FUNC    GLOBAL DEFAULT   13 foo
+```
+
+符号表里面只有函数名，所以对于c来说，不支持函数重载。
+
+### C++ Virtual Table
+
+```c++
+#include <iostream>
+
+class B
+{
+public:
+  virtual void bar();
+  virtual void qux();
+};
+
+void B::bar()
+{
+  std::cout << "This is B's implementation of bar" << std::endl;
+}
+
+void B::qux()
+{
+  std::cout << "This is B's implementation of qux" << std::endl;
+}
+
+class C : public B
+{
+public:
+  void bar() override;
+};
+
+void C::bar()
+{
+  std::cout << "This is C's implementation of bar" << std::endl;
+}
+
+B* b = new C();
+// calling C::bar()
+b->bar();
+
+```
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/vtable.png?raw=true"/>
+</p>
+
+新建一个实例的时候，vpointer指向该实例对应的vtable，例如`B *b = new C()`，`b->vpointer => vtable of class C`，然后`b->bar()`其实是在C的vtable找函数定义。基于此，有虚函数的类，析构函数也得声名为virtual。
+
+#### reference
+
+ 1. [Understandig Virtual Tables in C++](https://pabloariasal.github.io/2017/06/10/understanding-virtual-tables/)
+
+## 开放性问题
+
+### 关键词挖掘
+
+该问题的定义如下，给定一个document，可能含有title、正文、脚注等等，需要挖掘哪些词是该document的关键词。该场景适用于Query Document匹配、以文搜文等。
+
+ - TF-IDF对词做Ranking，TF-IDF算是最早的对词做weighting的方法
+ - TextRank（Unsupervised）
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/text_rank1.png?raw=true"/>
+</p>
+
+对于Text Summariztion来说，需要对句子做ranking，句对的分值可以通过cosine或者其他distance函数计算，这样对于整个document来说就是一个VxV的图，其中V是句子总数。参考Markov Model，以任意状态开始，无限步后最终停在某个状态的概率是固定的，所以每个sentence都会有一个最终的score。同理，可以把关键词当作句子，只不过词与词之间构成边只限于词对在指定window size之内。在预处理的时候可以结合POS tag过滤部分词，其他过滤手段取决于任务关注的点。
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/text_rank2.png?raw=true height=45"/>
+</p>
+
+ <p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/textrank_steps.png?raw=true"/>
+</p>
+
+ - 一些Supervised的模型，这种模型对训练集要求比较高，而训练集是比较难获取的。
+ - 一些Unsupervised的模型，通过一些unsupervised的任务对句子做encoding，这一部分模型很多，也很多样化。然后对所有的句子做一个clustering，选取各cluster距离中心点最近的句子当作summary的句子。其实相比TextRank，只是换了一种方式而已。
+
+#### reference
+
+ 1. [TextRank: Bringing Order into Texts](https://www.aclweb.org/anthology/W04-3252.pdf)
+ 2. [Unsupervised Text Summarization Using Sentence Embeddings](https://www.cs.utexas.edu/~aish/ut/NLPProject.pdf)
+ 3. [https://pkghosh.wordpress.com/2019/06/27/six-unsupervised-extractive-text-summarization-techniques-side-by-side/](https://pkghosh.wordpress.com/2019/06/27/six-unsupervised-extractive-text-summarization-techniques-side-by-side/)
  
