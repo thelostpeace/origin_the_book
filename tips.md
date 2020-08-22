@@ -486,6 +486,8 @@ bert pretrain的训练数据，每行一个完整句子，document之间以空�
 
 经过多层transformer之后，输出结果为`[batch size, sequence length, hidden size]`，即对整个句子做了encoding，通过`[CLS]`做上下句相关的分类，通过对应`[MASK]`的词的encoding做对应正确的词的预测。
 
+关于scaling，因为两个矩阵Query和Key相乘的时候肯能会导致数值变得异常大，进而导致softmax的gradient变得非常小，所以加scaling。
+
 #### Bert的优势
 
 Bert本身是一个unsupervised MLM(Masked Language Model)，对句对预测和mask词预测做联合训练，在很多NLP任务上都取得了SOTA。预训练好之后的Bert相当于一个Encoding Layer，在后续的任务上做finetune拟合也很快，但由于庞大的参数量，实际使用中往往需要加缓存才能保证延时上是可用的。
