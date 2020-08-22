@@ -15,3 +15,10 @@ K个特征值和特征向量的乘积做关键词中心点的表示，相当于K
 第三种办法也是通过模型对句子或者词做embedding，然后做聚类，例如k-means，然后分别选取离中心点最近的词做关键词。
 
 第四种办法是supervise的模型，现实中不太可取，训练数据难标注。
+
+2. 说一说CRF
+
+早些时候CRF其实是严重依赖于特征工程的，有一堆feature function，对于文本标注来说，例如当前词是A的时候特征值是1，否则0，就是unigram，
+这样可以构造出更复杂的特征，例如bigram，trigram，也可以把上文的label当作特征。这样就是一个NxF的矩阵，加一个linear层，输入纬度是特征数量，
+输出纬度是label数量，然后加softmax就可以得到每个label的置信度。现在机遇deep learning，不需要手工构造特征，词的encoding，句子的encoding，
+label的encoding都是特征。
