@@ -510,21 +510,65 @@ Bert本身是一个unsupervised MLM(Masked Language Model)，对句对预测和m
 <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/crf3.png?raw=true"/>
 </p>
 
-对于现在的deep learning来说，不需要手动构造特征，例如在ner里面，bi-LSTM对某个词的encoding就算其结合了上下文的特征，对于CRF来说还需要将之前的label信息加入进去。或者说，我们有了sentence的encoding，也有了当前词的encoding，还有上个词的label的encoding，然后用所有这些信息做一个linear transform，再接一个softmax，即可以对当前词的label做一个预测。
+对于biLSTM + CRF来说，biLSTM层对label的预测相当于发射矩阵，CRF层需要学习状态转移矩阵。
 
-对于机器学习的CRF来说，需要手动构造一些二元特征，类似于`if condition_a then 1 else 0`，其中`condition_a`可以非常复杂，原则上就是所有特征都必须彼此独立不相关，不然不符合Naive Bayes。
-
-用图来表示就是：
-
- <p align="center">
-<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/crf_score.png?raw=true"/>
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bilstm_crf1.png?raw=true"/>
 </p>
+
+上图红框标明的部分是发射矩阵，每个label到label的路径有对应的权重，便是状态转移矩阵。
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bilstm_crf2.png?raw=true"/>
+</p>
+
+状态转移矩阵是随机初始化的，会在训练的过程中学习到。
+
+CRF的`LossFunction = P(realpath) / (P1 + P2 + ... + Pn), Pi = e^Si, Si = 路径上的节点score + 路径score`
+P(readpath)根据训练数据能直接算得score。
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bilstm_crf_step1.png?raw=true"/>
+</p>
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bilstm_crf_step2.png?raw=true"/>
+</p>
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bilstm_crf_step3_1.png?raw=true"/>
+</p>
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bilstm_crf_step3_2.png?raw=true"/>
+</p>
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bilstm_crf_step3_3.png?raw=true"/>
+</p>
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bilstm_crf_step3_4.png?raw=true"/>
+</p>
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bilstm_crf_step3_5.png?raw=true"/>
+</p>
+
+当学到状态转移矩阵之后，推导最佳路径，是一个简单当DP问题，也叫Viterbi算法。
+
+<p align="center">
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/viterbi_algo.png?raw=true"/>
+</p>
+
+`Score[l][w] = max(Score[i=1->n][w-1] + weight_path(i,w-1 => w) + weight_node(l, w)), l means label, w means words`, 最大Score是`max(Score[i=1-n][w])`，最大Score的路径需要记录每一个转移的上一个label信息，即可得到最大路径。
 
 #### reference
 
  1. [What Are Conditional Random Fields?](https://prateekvjoshi.com/2013/02/23/what-are-conditional-random-fields/)
  2. [Why Do We Need Conditional Random Fields?](https://prateekvjoshi.com/2013/02/23/why-do-we-need-conditional-random-fields/)
  3. [Introduction to Conditional Random Fields](http://blog.echen.me/2012/01/03/introduction-to-conditional-random-fields/)
+ 4. [通俗理解BiLSTM-CRF命名实体识别模型中的CRF层](https://www.cnblogs.com/createMoMo/p/7529885.html)
 
 ### TF-IDF
 
