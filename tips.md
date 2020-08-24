@@ -569,6 +569,7 @@ P(readpath)根据训练数据能直接算得score。
  2. [Why Do We Need Conditional Random Fields?](https://prateekvjoshi.com/2013/02/23/why-do-we-need-conditional-random-fields/)
  3. [Introduction to Conditional Random Fields](http://blog.echen.me/2012/01/03/introduction-to-conditional-random-fields/)
  4. [通俗理解BiLSTM-CRF命名实体识别模型中的CRF层](https://www.cnblogs.com/createMoMo/p/7529885.html)
+ 5. [Neural Architectures for Named Entity Recognition](https://arxiv.org/pdf/1603.01360.pdf)
 
 ### TF-IDF
 
