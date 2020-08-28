@@ -697,8 +697,8 @@ b->bar();
 
 ### How to handle imbalanced data sets for classification
 
- - oversampling: 对于训练数据偏少的数据，随机选取，重复复制(2x, 3x, 5x, 10x etc.)
-   + SMOTE(Synthetic Minority Over-sampling Technique) algorithm: 
+ - **oversampling**: 对于训练数据偏少的数据，随机选取，重复复制(2x, 3x, 5x, 10x etc.)
+   + **SMOTE**(Synthetic Minority Over-sampling Technique) algorithm: 
 
    <p aligh="center">
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/smote_1.png?raw=true" width=700/>
@@ -708,7 +708,7 @@ b->bar();
    简述就是，首先确认需要扩充多大的数据量，然后随机在要扩充的样本里找一条训练数据`Si`，找到这个数据的knn`(S1-Sk)`，
    从`1-k`随机选取一个值`m`，计算`Si`和`S1-Sm`之间的向量差`D1-Dm`，然后得到扩充数据为`Si + D1-m * random(0, 1)`，然后再随机找一条训练数据，重复该操作直到达到需要扩充的数据量。
 
-   + ADASYN(Adaptive Synthetic sampling):
+   + **ADASYN**(Adaptive Synthetic sampling):
 
    <p aligh="center">
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/adasyn_1.png?raw=true" width=600/>
@@ -717,8 +717,8 @@ b->bar();
    
    相比SMOTE对于每个训练样本随机生成1-k个扩充样本，ADASYN根据knn里的majority class样本的占比去扩充样本，这样生成的样本会更加均衡，对于难分类的样本生成更多的扩充样本。
 
- - undersampling:  对于训练数据比较多的数据，随机删除部分数据
-   + Tomek links:
+ - **undersampling**:  对于训练数据比较多的数据，随机删除部分数据
+   + **Tomek links**:
  - 当分类较多的时候，loss可以用negative sampling
 
 #### reference
