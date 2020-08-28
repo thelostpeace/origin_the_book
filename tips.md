@@ -701,8 +701,8 @@ b->bar();
    + SMOTE(Synthetic Minority Over-sampling Technique) algorithm: 
 
    <p aligh="center">
-   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/smote_1.png?raw=true" width=600/>
-   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/smote_2.png?raw=true" width=600/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/smote_1.png?raw=true" width=700/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/smote_2.png?raw=true" width=700/>
    </p>
 
    简述就是，首先确认需要扩充多大的数据量，然后随机在要扩充的样本里找一条训练数据`Si`，找到这个数据的knn`(S1-Sk)`，
