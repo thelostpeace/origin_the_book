@@ -694,3 +694,39 @@ b->bar();
  3. [https://pkghosh.wordpress.com/2019/06/27/six-unsupervised-extractive-text-summarization-techniques-side-by-side/](https://pkghosh.wordpress.com/2019/06/27/six-unsupervised-extractive-text-summarization-techniques-side-by-side/)
  4. [Text Summarization Techniques: A Brief Survey](https://arxiv.org/pdf/1707.02268.pdf)
  
+
+### How to handle imbalanced data sets for classification
+
+ - oversampling: 对于训练数据偏少的数据，随机选取，重复复制(2x, 3x, 5x, 10x etc.)
+   + SMOTE(Synthetic Minority Over-sampling Technique) algorithm: 
+
+   <p aligh="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/smote_1.png?raw=true"/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/smote_2.png?raw=true"/>
+   </p>
+
+   简述就是，首先确认需要扩充多大的数据量，然后随机在要扩充的样本里找一条训练数据`Si`，找到这个数据的knn`(S1-Sk)`，
+   从`1-k`随机选取一个值`m`，计算`Si`和`S1-Sm`之间的向量差`D1-Dm`，然后得到扩充数据为`Si + D1-m * random(0, 1)`，然后再随机找一条训练数据，重复该操作直到达到需要扩充的数据量。
+
+   + ADASYN(Adaptive Synthetic sampling):
+
+   <p aligh="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/adasyn_1.png?raw=true"/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/adasyn_2.png?raw=true"/>
+   </p>
+   
+   相比SMOTE对于每个训练样本随机生成1-k个扩充样本，ADASYN根据knn里的majority class样本的占比去扩充样本，这样生成的样本会更加均衡，对于难分类的样本生成更多的扩充样本。
+
+ - undersampling:  对于训练数据比较多的数据，随机删除部分数据
+   + Tomek links:
+ - 当分类较多的时候，loss可以用negative sampling
+
+#### reference
+
+ 1. [oversampling & undersampling](https://en.wikipedia.org/wiki/Oversampling_and_undersampling_in_data_analysis)
+ 2. [SMOTE — Synthetic Minority Over-sampling Technique](https://medium.com/erinludertblog/smote-synthetic-minority-over-sampling-technique-caada3df2c0a)
+ 3. [SMOTE: Synthetic Minority Over-sampling Technique (Paper)](https://arxiv.org/pdf/1106.1813.pdf)
+ 4. [ADASYN: Adaptive Synthetic Sampling Approach for Imbalanced Learning](https://sci2s.ugr.es/keel/pdf/algorithm/congreso/2008-He-ieee.pdf)
+
+### The Loss Functions
+
