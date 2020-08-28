@@ -718,6 +718,8 @@ b->bar();
    相比SMOTE对于每个训练样本随机生成1-k个扩充样本，ADASYN根据knn里的majority class样本的占比去扩充样本，这样生成的样本会更加均衡，对于难分类的样本生成更多的扩充样本。
 
  - **undersampling**:  对于训练数据比较多的数据，随机删除部分数据
+   + **NearMiss**: 计算所有majority class和minority class之间的距离，取n个离minority class最近的majority样本删除。Version1，与minority class之间的平均距离最近的被选取；Version2，与minority class之间平均距离最远的被选取；Version3，对于minority class选取M个近邻，majority class离N近邻平均距离较大的被选取（这里对N的描述不清楚）。
+   + **CNN**(Condensed Nearest Neighbor): 1. 从训练数据T随机选择一个点，放入U 2. 从T-U选取第一个近邻在U但是与该近邻不在一个分类的样本放入U 3. 重复2直到U不再增大。该算法太耗时，不可取。
    + **Tomek links**:
  - 当分类较多的时候，loss可以用negative sampling
 
@@ -727,6 +729,7 @@ b->bar();
  2. [SMOTE — Synthetic Minority Over-sampling Technique](https://medium.com/erinludertblog/smote-synthetic-minority-over-sampling-technique-caada3df2c0a)
  3. [SMOTE: Synthetic Minority Over-sampling Technique (Paper)](https://arxiv.org/pdf/1106.1813.pdf)
  4. [ADASYN: Adaptive Synthetic Sampling Approach for Imbalanced Learning](https://sci2s.ugr.es/keel/pdf/algorithm/congreso/2008-He-ieee.pdf)
+ 5. [Survey of resampling techniques for improving classification performance in unbalanced datasets](https://arxiv.org/pdf/1608.06048.pdf)
 
 ### The Loss Functions
 
