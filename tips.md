@@ -711,8 +711,8 @@ b->bar();
    + ADASYN(Adaptive Synthetic sampling):
 
    <p aligh="center">
-   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/adasyn_1.png?raw=true" width=700/>
-   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/adasyn_2.png?raw=true" width=700/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/adasyn_1.png?raw=true" width=600/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/adasyn_2.png?raw=true" width=600/>
    </p>
    
    相比SMOTE对于每个训练样本随机生成1-k个扩充样本，ADASYN根据knn里的majority class样本的占比去扩充样本，这样生成的样本会更加均衡，对于难分类的样本生成更多的扩充样本。
