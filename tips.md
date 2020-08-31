@@ -762,6 +762,8 @@ b->bar();
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_hinge.png?raw=true" height=50/>
    </p>
 
+ - 更多loss functions参见reference[2]
+
 #### reference
 
  1. [Picking Loss Functions - A comparison between MSE, Cross Entropy, and Hinge Loss](https://rohanvarma.me/Loss-Functions/)
