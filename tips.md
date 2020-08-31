@@ -741,25 +741,25 @@ b->bar();
  - **MSE**(Mean-Squared Loss): 适用于连续值预测
 
    <p aligh="center">
-   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_mse.png?raw=true" height=45/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_mse.png?raw=true" height=50/>
    </p>
 
  - **binary cross entropy(MLE)**: 适用于二分类
 
    <p aligh="center">
-   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_binary_cross_entropy.png?raw=true" height=45/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_binary_cross_entropy.png?raw=true" height=50/>
    </p>
 
  - **cross entropy**: 适用于多分类
 
    <p aligh="center">
-   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_cross_entropy.png?raw=true" height=45/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_cross_entropy.png?raw=true" height=50/>
    </p>
 
  - **Hinge Loss**: penalize不对的预测和置信度低的正确预测
 
    <p aligh="center">
-   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_hinge.png?raw=true" height=45/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_hinge.png?raw=true" height=50/>
    </p>
 
 #### reference
