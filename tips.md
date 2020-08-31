@@ -720,7 +720,12 @@ b->bar();
  - **undersampling**:  对于训练数据比较多的数据，随机删除部分数据
    + **NearMiss**: 计算所有majority class和minority class之间的距离，取n个离minority class最近的majority样本删除。Version1，与minority class之间的平均距离最近的被选取；Version2，与minority class之间平均距离最远的被选取；Version3，对于minority class选取M个近邻，majority class离N近邻平均距离较大的被选取（这里对N的描述不清楚）。
    + **CNN**(Condensed Nearest Neighbor): 1. 从训练数据T随机选择一个点，放入U 2. 从T-U选取第一个近邻在U但是与该近邻不在一个分类的样本放入U 3. 重复2直到U不再增大。该算法太耗时，不可取。
-   + **Tomek links**:
+   + **ENN**(Edited Nearest Neighbor): 取knn，k里面做voting选出majority class label，移除不符合majority class label的数据，这个效果上挺不错，相当于清理出明确的分类边界。
+   + **RENN**(Repeated ENN): 重复ENN清理数据，直到没有数据可以清理，该方法优于ENN，整体准召提升最明显。
+   + **Tomek links**: Tomek link定义为A，B两个点，离A最近的是B，离B最近的是A，如果A、B对应的分类不一样，则可以擦除A、B中属于majority class的,原理上还是清理有overlapping的样本。
+   + **Easy Ensemble**: 随机从majority sample里面选取样本，使得majority sample和minority sample的大小一致，然后基于此训练N个分类器，基于这N个分类器的结果训练出一个分类器。(准召优于以上所有，但是模型参数量大的话训练和部署都比较占资源)
+   + **BalanceCascade**: 相比Easy Ensemble后一次抽样都移除掉之前抽样中预测正确的样本。(效果优于Easy Ensemble)
+
  - 当分类较多的时候，loss可以用negative sampling
 
 #### reference
@@ -733,3 +738,31 @@ b->bar();
 
 ### The Loss Functions
 
+ - **MSE**(Mean-Squared Loss): 适用于连续值预测
+
+   <p aligh="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_mse.png?raw=true" height=45/>
+   </p>
+
+ - **binary cross entropy(MLE)**: 适用于二分类
+
+   <p aligh="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_binary_cross_entropy.png?raw=true" height=45/>
+   </p>
+
+ - **cross entropy**: 适用于多分类
+
+   <p aligh="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_cross_entropy.png?raw=true" height=45/>
+   </p>
+
+ - **Hinge Loss**: penalize不对的预测和置信度低的正确预测
+
+   <p aligh="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_hinge.png?raw=true" height=45/>
+   </p>
+
+#### reference
+
+ 1. [Picking Loss Functions - A comparison between MSE, Cross Entropy, and Hinge Loss](https://rohanvarma.me/Loss-Functions/)
+ 2. [On Loss Functions for Deep Neural Networks in Classification](https://arxiv.org/pdf/1702.05659.pdf)
