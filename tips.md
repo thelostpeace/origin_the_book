@@ -780,7 +780,7 @@ Bias is the difference between the average prediction of our model and the corre
 Variance is the variability of model prediction for a given data point or a value which tells us spread of our data. Model with high variance pays a lot of attention to training data and does not generalize on the data which it hasn’t seen before. As a result, such models perform very well on training data but has high error rates on test data.
 
    <p aligh="center">
-   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bias_variance.png?raw=true"/>
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bias_variance.png?raw=true" width=600/>
    </p>
 
 在Supervised Learning里面，underfitting意指high bias，low variance；overfitting意指low bias，high variance。
