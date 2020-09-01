@@ -700,7 +700,7 @@ b->bar();
  - **oversampling**: 对于训练数据偏少的数据，随机选取，重复复制(2x, 3x, 5x, 10x etc.)
    + **SMOTE**(Synthetic Minority Over-sampling Technique) algorithm: 
 
-   <p aligh="center">
+   <p align="center">
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/smote_1.png?raw=true" width=700/>
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/smote_2.png?raw=true" width=700/>
    </p>
@@ -710,7 +710,7 @@ b->bar();
 
    + **ADASYN**(Adaptive Synthetic sampling):
 
-   <p aligh="center">
+   <p align="center">
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/adasyn_1.png?raw=true" width=600/>
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/adasyn_2.png?raw=true" width=600/>
    </p>
