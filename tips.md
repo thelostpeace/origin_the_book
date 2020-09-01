@@ -768,3 +768,38 @@ b->bar();
 
  1. [Picking Loss Functions - A comparison between MSE, Cross Entropy, and Hinge Loss](https://rohanvarma.me/Loss-Functions/)
  2. [On Loss Functions for Deep Neural Networks in Classification](https://arxiv.org/pdf/1702.05659.pdf)
+
+### Bias & Variance tradeoff
+
+#### What is Bias
+
+Bias is the difference between the average prediction of our model and the correct value which we are trying to predict. Model with high bias pays very little attention to the training data and oversimplifies the model. It always leads to high error on training and test data.
+
+#### What is Variance
+
+Variance is the variability of model prediction for a given data point or a value which tells us spread of our data. Model with high variance pays a lot of attention to training data and does not generalize on the data which it hasn’t seen before. As a result, such models perform very well on training data but has high error rates on test data.
+
+   <p aligh="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bias_variance.png?raw=true"/>
+   </p>
+
+在Supervised Learning里面，underfitting意指high bias，low variance；overfitting意指low bias，high variance。
+
+#### The Tradeoff
+
+Dimensionality reduction and feature selection can decrease variance by simplifying models. Similarly, a larger training set tends to decrease variance. Adding features (predictors) tends to decrease bias, at the expense of introducing additional variance. Learning algorithms typically have some tunable parameters that control bias and variance; for example,
+
+ - linear and Generalized linear models can be regularized to decrease their variance at the cost of increasing their bias
+ - In artificial neural networks, the variance increases and the bias decreases as the number of hidden units increase,[3] although this classical assumption has been the subject of recent debate.[8] Like in GLMs, regularization is typically applied
+ - In k-nearest neighbor models, a high value of k leads to high bias and low variance.
+ - In instance-based learning, regularization can be achieved varying the mixture of prototypes and exemplars
+ - In decision trees, the depth of the tree determines the variance. Decision trees are commonly pruned to control variance
+
+One way of resolving the trade-off is to use mixture models and ensemble learning. For example, boosting combines many "weak" (high bias) models in an ensemble that has lower bias than the individual models, while bagging combines "strong" learners in a way that reduces their variance.
+
+Model validation methods such as cross-validation (statistics) can be used to tune models so as to optimize the trade-off.
+
+#### reference
+
+ 1. [Understanding the Bias-Variance Tradeoff](https://towardsdatascience.com/understanding-the-bias-variance-tradeoff-165e6942b229)
+ 2. [Bias–variance tradeoff](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff)
