@@ -740,25 +740,25 @@ b->bar();
 
  - **MSE**(Mean-Squared Loss): 适用于连续值预测
 
-   <p aligh="center">
+   <p align="center">
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_mse.png?raw=true" height=50/>
    </p>
 
  - **binary cross entropy(MLE)**: 适用于二分类
 
-   <p aligh="center">
+   <p align="center">
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_binary_cross_entropy.png?raw=true" height=50/>
    </p>
 
  - **cross entropy**: 适用于多分类
 
-   <p aligh="center">
+   <p align="center">
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_cross_entropy.png?raw=true" height=50/>
    </p>
 
  - **Hinge Loss**: penalize不对的预测和置信度低的正确预测
 
-   <p aligh="center">
+   <p align="center">
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/loss_hinge.png?raw=true" height=50/>
    </p>
 
@@ -779,7 +779,7 @@ Bias is the difference between the average prediction of our model and the corre
 
 Variance is the variability of model prediction for a given data point or a value which tells us spread of our data. Model with high variance pays a lot of attention to training data and does not generalize on the data which it hasn’t seen before. As a result, such models perform very well on training data but has high error rates on test data.
 
-   <p aligh="center">
+   <p align="center">
    <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/bias_variance.png?raw=true" width=600/>
    </p>
 
