@@ -803,3 +803,71 @@ Model validation methods such as cross-validation (statistics) can be used to tu
 
  1. [Understanding the Bias-Variance Tradeoff](https://towardsdatascience.com/understanding-the-bias-variance-tradeoff-165e6942b229)
  2. [Bias–variance tradeoff](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff)
+
+### Gradient Boosting
+
+Gradient Boosting属于ensemble learning其中之一，就是顺序生成weak learner，每一个weak learner拟合目标是之前的模型的预测残差，即`y(current model) = y(target) - y(previous model)`。
+
+   <p align="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/gradient_boosting.png?raw=true" width=600/>
+   </p>
+
+#### reference
+ 1. [Gradient Boosting from scratch](https://medium.com/mlreview/gradient-boosting-from-scratch-1e317ae4587d)
+ 2. [How to explain gradient boosting](https://explained.ai/gradient-boosting/index.html)
+ 3. [Gradient boosting](https://en.wikipedia.org/wiki/Gradient_boosting)
+
+### XGBoost
+
+   <p align="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/xgboost.png?raw=true" width=400/>
+   </p>
+   
+   <p align="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/xgboost1.png?raw=true"/>
+   </p>
+
+   <p align="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/xgboost2.png?raw=true"/>
+   </p>
+
+   `gi`和`hi`可以用MSE为loss函数推导一下，但是这种形式适用于任意loss函数。而`ft(x)`正是要学习的函数，而`欧姆(ft(x))`是对函数复杂度的一个惩罚，相比gbdt而言，xgboost有不一样的学习方式，而且能有效防止overfitting，gbdt很容易overfitting，boosting机制使然。
+
+   <p align="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/xgboost3.png?raw=true"/>
+   </p>
+
+`欧姆(ft)`定义为对区域划分个数和L2 norm惩罚，也就是算法更喜欢简单的区域划分以防止过拟合。
+
+   <p align="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/xgboost4.png?raw=true"/>
+   </p>
+
+   <p align="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/xgboost5.png?raw=true"/>
+   </p>
+
+   <p align="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/xgboost5.png?raw=true"/>
+   </p>
+   
+   <p align="center">
+   <img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/xgboost5.png?raw=true"/>
+   </p>
+
+这篇论文很不错，易读易理解，比Reference里的Blog更清晰易懂。
+
+#### booster
+
+ - gbtree，使用regression tree做weak learner
+ - gblinear，使用linear regression做weak learner
+ - dart，借用neural network里的dropout思想，在每次迭代里丢弃一定比例的树。
+
+#### reference
+
+ 1. [Introduction to Boosted Trees(Original)](https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf)
+ 2. [Introduction to Boosted Trees(doc)](https://xgboost.readthedocs.io/en/latest/tutorials/model.html)
+ 3. [XGBoost Algorithm: Long May She Reign!](https://towardsdatascience.com/https-medium-com-vishalmorde-xgboost-algorithm-long-she-may-rein-edd9f99be63d)
+ 4. [XGBoost: A Scalable Tree Boosting System(Paper)](https://arxiv.org/pdf/1603.02754.pdf)
+ 5. [Higgs Boson Discovery with Boosted Trees(Paper)](http://proceedings.mlr.press/v42/chen14.pdf)
+ 6. [A Gentle Introduction to XGBoost for Applied Machine Learning](https://machinelearningmastery.com/gentle-introduction-xgboost-applied-machine-learning/)
