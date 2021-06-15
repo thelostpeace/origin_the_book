@@ -33,10 +33,10 @@ label的encoding都是特征。
  - **Negative Log Likelihood**: 用于多分类
  
 <p align='center'>
-<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/NLL_1.png?raw=true" height=50/>
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/NLL_1.png?raw=true" height=100/>
 </p>
 
 <p align='center'>
-<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/NLL_2.png?raw=true" height=50/>
+<img src="https://github.com/thelostpeace/origin_the_book/blob/master/image/NLL_2.png?raw=true" height=150/>
 </p>
 
