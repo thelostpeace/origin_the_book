@@ -29,7 +29,7 @@ label的encoding都是特征。
 
  - **MSE**: 用于linear regression，`L = sum(y - ÿ)^2`
  - **MLE**: 用于logistic regression，二分类loss `L = -ylog(ÿ) - (1-y)log(1-ÿ)`
- - **Cross Entropy**: 用于多分类，`L = -Sum(y * log(ÿ))`
+ - **Cross Entropy**: 用于多分类，`L = -Sum(y * log(ÿ))`，和**Negative Log Likelihood**是一个东西
  - **Negative Log Likelihood**: 用于多分类
  
 <p align='center'>
